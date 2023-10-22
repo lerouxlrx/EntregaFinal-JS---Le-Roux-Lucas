@@ -18,30 +18,19 @@ agregarActividad(actividad) {
 //Variables necesarias
 let Contactos = [];
 const htmlContactos = document.getElementById("htmlContactos");
-let contador = 0;
 const btnContacto = document.getElementById("btnContacto");
+const btnActividad = document.getElementById("btnActividad");
 
-//Inicio condicional
-if (localStorage.getItem("Contactos")) {
-    const storageContactos = JSON.parse(localStorage.getItem("Contactos"));
-    storageContactos.forEach(el => {
-        const contacto = new Contacto(el.nombreApellido, el.telefono, el.correo);
-        el.actividad.forEach(actividad => {
-            contacto.agregarActividad(actividad);
-        });
-        Contactos.push(contacto);
-    });
-    mostrarContactos ()
-} else {
+//Funciones para ahorrar código
+function sinContactos () {
     const agregarMensaje = document.createElement ('article');
-        agregarMensaje.innerHTML = `
-            <h6>-Sin Contactos-</h6>
-            <p>Agrega uno para poder crear una actividad</p>
-        `
-        htmlContactos.appendChild(agregarMensaje);
+    agregarMensaje.innerHTML = `
+        <h6>-Sin Contactos-</h6>
+        <p>Agrega uno para poder crear una actividad</p>
+    `
+    htmlContactos.appendChild(agregarMensaje);
 }
 
-//Funciones
 function guardarStorage () {
     const jsonContactos = JSON.stringify(Contactos);
     localStorage.setItem("Contactos",jsonContactos); 
@@ -71,6 +60,76 @@ function alertaTostify (text) {
     }).showToast();
 }
 
+function removerContactos () {
+    while (htmlContactos.firstChild) {
+        htmlContactos.removeChild(htmlContactos.firstChild);
+    }
+}
+
+function contactoPush (nombre, telefono, correo) {
+    Contactos.push(new Contacto(nombre, telefono, correo));
+    guardarStorage ();
+    /*      alertaSweet ('success','Contacto guardado con éxito','Ya podes crear actividad sobre '+nombreContacto); */
+    alertaTostify ('Contacto guardado');
+    mostrarContactos();
+
+    document.getElementById("nombreContacto").value = "";
+    document.getElementById("correoContacto").value = "";
+    document.getElementById("telefonoContacto").value = "";
+}
+
+//Funciones operativas
+function mostrarContactos () {
+
+    const misContactos = JSON.parse(localStorage.getItem("Contactos"));
+
+    if (misContactos && misContactos.length != 0) {
+        let contador = 0;
+        removerContactos ()
+
+/*         imprimirLog('Control Contactos recuperados de Storage:');
+        imprimirLog(misContactos)  ;
+        imprimirLog('Control Contactos al ingresar a forEach:');
+        imprimirLog(Contactos); */
+        misContactos.forEach(({nombreApellido, telefono, correo, actividad}) => {
+            contador++;
+            const agregarContacto = document.createElement ('article');
+            agregarContacto.className = 'tarjetaContacto';
+            agregarContacto.id = contador;
+
+            const actividadesDiv = document.createElement('div');
+        
+            actividad.forEach(actividad => {
+                const actividadHtml = document.createElement('p');
+                actividadHtml.innerHTML = `
+                <span class='fechaNegrita'>${actividad.dateActividad}:</span> ${actividad.textActividad}
+            `
+                actividadesDiv.appendChild (actividadHtml)
+                
+            });
+
+            agregarContacto.innerHTML = `
+                <h6 class='nombreTarjeta'>${nombreApellido}</h6>
+                <p class='correoTarjeta'>${correo}</p>
+                <p class='telefonoTarjeta'>${telefono}</p>
+                <h7 class='actividadTarjeta'>Actividades:</h6>
+            `
+            agregarContacto.appendChild(actividadesDiv);
+            const btnEliminar = document.createElement('button');
+            btnEliminar.id = `btn.${contador}`;
+            btnEliminar.className = 'btnEliminar';
+            btnEliminar.type = 'button';
+            btnEliminar.textContent = 'Eliminar';
+            agregarContacto.appendChild(btnEliminar);
+
+            htmlContactos.appendChild(agregarContacto);
+        });
+    } else {
+        removerContactos ()
+        sinContactos ()
+    }
+}
+
 async function validarCorreoContacto(correo) {
     const apiKey = 'fc22fd0017a64654a0ddc1e5a7e887ad';
     const url = `https://emailvalidation.abstractapi.com/v1?api_key=${apiKey}&email=${correo}&auto_correct=false`;
@@ -87,18 +146,6 @@ async function validarCorreoContacto(correo) {
     }
 }
 
-function contactoPush (nombre, telefono, correo) {
-    Contactos.push(new Contacto(nombre, telefono, correo));
-    guardarStorage ();
-    /*      alertaSweet ('success','Contacto guardado con éxito','Ya podes crear actividad sobre '+nombreContacto); */
-    alertaTostify ('Contacto guardado');
-    mostrarContactos();
-
-    document.getElementById("nombreContacto").value = "";
-    document.getElementById("correoContacto").value = "";
-    document.getElementById("telefonoContacto").value = "";
-}
-
 async function crearContacto () {
     const nombreContacto = document.getElementById("nombreContacto").value;
     const correoContacto = document.getElementById("correoContacto").value;
@@ -111,52 +158,6 @@ async function crearContacto () {
             :  (await validarCorreoContacto(correoContacto) == 'DELIVERABLE')
                 ? contactoPush (nombreContacto, telefonoContacto, correoContacto)
                 : alertaSweet ('error','Correo fallo la validación','El correo '+correoContacto+' no paso la validación. Ponga un correo valido o escriba en el campo correo NO TIENE')
-}
-
-function mostrarContactos () {
-
-    while (htmlContactos.firstChild) {
-        htmlContactos.removeChild(htmlContactos.firstChild);
-    }
-
-    const misContactos = JSON.parse(localStorage.getItem("Contactos"));
-    imprimirLog('Contactos recuperados de Storage:');
-    imprimirLog(misContactos)  ;
-/*  imprimirLog('Control Contactos al ingresar a forEach:');
-    imprimirLog(Contactos); */
-    misContactos.forEach(({nombreApellido, telefono, correo, actividad}) => {
-        contador++;
-        const agregarContacto = document.createElement ('article');
-        agregarContacto.className = 'tarjetaContacto';
-        agregarContacto.id = `contacto.${contador}`;
-
-        const actividadesDiv = document.createElement('div');
-    
-        actividad.forEach(actividad => {
-            const actividadHtml = document.createElement('p');
-            actividadHtml.innerHTML = `
-            <span class='fechaNegrita'>${actividad.dateActividad}:</span> ${actividad.textActividad}
-        `
-            actividadesDiv.appendChild (actividadHtml)
-            
-        });
-
-        agregarContacto.innerHTML = `
-            <h6 class='nombreTarjeta'>${nombreApellido}</h6>
-            <p class='correoTarjeta'>${correo}</p>
-            <p class='telefonoTarjeta'>${telefono}</p>
-            <h7 class='actividadTarjeta'>Actividades:</h6>
-        `
-        agregarContacto.appendChild(actividadesDiv);
-        const btnEliminar = document.createElement('button');
-        btnEliminar.id = `btn.${contador}`;
-        btnEliminar.className = 'btnEliminar';
-        btnEliminar.type = 'button';
-        btnEliminar.textContent = 'Eliminar';
-        agregarContacto.appendChild(btnEliminar);
-
-        htmlContactos.appendChild(agregarContacto);
-    });
 }
 
 function crearActividad() {
@@ -200,7 +201,24 @@ function crearActividad() {
     }     
 }
 
+function eliminarContacto (id) {
+    const posicionEliminar = id-1
+    Contactos.splice (posicionEliminar,1)
+    imprimirLog(Contactos)
+    guardarStorage ()
+    mostrarContactos ()
+}
+
+//Inicio
+mostrarContactos ()
 
 //Eventos
 btnContacto.addEventListener("click", crearContacto);
 btnActividad.addEventListener("click", crearActividad);
+document.addEventListener('click',  (e) => {
+    if (e.target && e.target.classList.contains('btnEliminar')) {
+        const id = e.target.parentElement.id;
+        eliminarContacto(id);
+    }
+});
+
