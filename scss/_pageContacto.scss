@@ -1,0 +1,62 @@
+/*Contacto*/
+
+.contactoS2 {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+
+    .contactoS2A1 {
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        margin: 10px;
+                
+        .formContacto {
+            margin: 20px;
+            padding: 10px;
+            border: 3px solid;
+            border-color: $color-tyffani;
+            label {
+                display: inline-block;
+                margin: 5px;
+                width: 175px;
+                color: $color-wapp;
+                text-align: start;
+            }
+            input, textarea {
+                margin: 5px;
+                width: 250px;
+                color: $color-wapp;
+                border: $color-gris 2px solid;
+            }
+            .formConsulta {
+                display: flex;
+                align-content: start;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            button {
+                background-color: $color-resaltar;
+                border: outset $color-resaltar;
+                width: 100px;
+            }
+        }
+    }
+
+    .contactoS2A2 {
+        align-items: center;
+        padding: 50px;
+        i {
+            font-size: 300%;
+            color: $color-wapp;
+        }
+        a {
+            font-size: 150%;
+            text-decoration: none;
+        }
+    }
+}

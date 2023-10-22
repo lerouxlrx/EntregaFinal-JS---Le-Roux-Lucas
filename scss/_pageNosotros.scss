@@ -1,0 +1,21 @@
+/*Nosotros*/
+
+.carousel {
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.carousel-item img {
+    margin: 50px;
+    object-fit: cover;
+    
+    
+}
+
+.carousel h5, .carousel p {
+    text-shadow: 2px 2px 2px black;
+}

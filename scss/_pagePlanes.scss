@@ -1,0 +1,25 @@
+/*Planes*/
+
+.planesS2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.planesS2 article {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 300px;
+    text-align: center;
+    align-items: center;
+    margin: 50px;
+}
+
+.planesS2 p {
+    width: 80%;
+    margin-top: 5px;
+    text-align: center;
+}

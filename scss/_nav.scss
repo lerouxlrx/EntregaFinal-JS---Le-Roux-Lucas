@@ -1,0 +1,73 @@
+/*Navegador*/
+
+.wappIni {
+    font-size: 20px;
+    height: 30px;
+    color: $color-ligero;
+    display: flex;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-wapp;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $color-principal;
+    position: fixed;
+    top: 30px;
+    width: 100%;
+    height: 100px;
+    z-index: 1;
+    .menu {
+        display: none;
+    }
+    .navDiv {
+        display: flex;
+        align-items: center;
+        .logoEnc {
+            height: 100px;
+            width: 100px;
+        }
+        .titEnc {
+            margin-left: 10px;
+        }
+        .listaNav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-right: 15px; 
+            margin-bottom: 0px;
+            .liNav, .cuenta {
+                display: flex;
+                width: 80px;
+                align-items: center;
+                justify-content: center;
+                a {
+                    color: black;
+                    text-decoration: none;
+                    font-size: 18px;
+                    margin: 5px;
+                    text-align: center;
+                }
+            }
+            .crearCuenta {
+                background-color: $color-resaltar;
+                border: outset $color-resaltar;
+                width: 125px;
+                a {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+
+main {
+    margin-top: 130px;
+}
