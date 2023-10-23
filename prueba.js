@@ -157,7 +157,7 @@ async function crearContacto () {
             ? contactoPush (nombreContacto, telefonoContacto, nombreContacto+'@'+telefonoContacto)
             :  (await validarCorreoContacto(correoContacto) == 'DELIVERABLE')
                 ? contactoPush (nombreContacto, telefonoContacto, correoContacto)
-                : alertaSweet ('error','Correo fallo la validación','El correo '+correoContacto+' no paso la validación. Ponga un correo valido o escriba en el campo correo NO TIENE')
+                : alertaSweet ('error','Correo falló la validación','El correo '+correoContacto+' no paso la validación. Ponga un correo valido o escriba en el campo correo NO TIENE')
 }
 
 function crearActividad() {
@@ -183,9 +183,9 @@ function crearActividad() {
 /*             imprimirLog('El contacto encontrado es:');
             imprimirLog(contactoEncontrado);
             imprimirLog('Control contactos al momento de crear actividad: ');
-            imprimirLog(Contactos); */
+            imprimirLog(Contactos); 
             imprimirLog('Nueva actividad a agregar: ');
-            imprimirLog(nuevaActividad);
+            imprimirLog(nuevaActividad); */
             contactoEncontrado.agregarActividad(nuevaActividad);
             guardarStorage ();
 /*          alertaSweet ('success','Actividad guardada con éxito','Ya podes visualizar tu actividad en el contacto con mail: '+correoBuscado); */
