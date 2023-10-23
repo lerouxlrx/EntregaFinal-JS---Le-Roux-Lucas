@@ -161,7 +161,7 @@ async function crearContacto () {
 }
 
 function crearActividad() {
-    const fecha = luxon.DateTime.now().toFormat('dd-mm-yy hh:mm')
+    const fecha = luxon.DateTime.now().toFormat('dd-LL-yy hh:mm')
     let contactoEncontrado;
     let correoBuscado = document.getElementById("correoBuscado").value;
     let nuevaActividad = {
@@ -172,8 +172,8 @@ function crearActividad() {
     imprimirLog ('Control fecha antes de crear actividad: ')
     imprimirLog (fecha)
     imprimirLog (dateActividad)
-/*  imprimirLog('Control contactos antes de crear actividad: ');
-    imprimirLog(Contactos); */
+    imprimirLog('Control contactos antes de crear actividad: ');
+    imprimirLog(Contactos);
 
     if (correoBuscado == "" || textActividad == "") {
         alertaSweet ('error','Hay campos vacios','Debes completar con el correo de un contacto y la actividad que quieras guardar.');
@@ -210,7 +210,17 @@ function eliminarContacto (id) {
 }
 
 //Inicio
-mostrarContactos ()
+if (localStorage.getItem("Contactos") && localStorage.getItem("Contactos").length !=0 ) {
+    const storageContactos = JSON.parse(localStorage.getItem("Contactos"));
+    storageContactos.forEach(el => {
+        const contacto = new Contacto(el.nombreApellido, el.telefono, el.correo);
+        el.actividad.forEach(actividad => {
+            contacto.agregarActividad(actividad);
+        });
+        Contactos.push(contacto);
+    });
+    mostrarContactos ()
+} else { sinContactos() }
 
 //Eventos
 btnContacto.addEventListener("click", crearContacto);
