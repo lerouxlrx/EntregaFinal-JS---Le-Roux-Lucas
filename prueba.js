@@ -169,20 +169,20 @@ function crearActividad() {
         dateActividad: fecha,
     }
     let {textActividad, dateActividad} = nuevaActividad
-    imprimirLog ('Control fecha antes de crear actividad: ')
+/*     imprimirLog ('Control fecha antes de crear actividad: ')
     imprimirLog (fecha)
     imprimirLog (dateActividad)
     imprimirLog('Control contactos antes de crear actividad: ');
-    imprimirLog(Contactos);
+    imprimirLog(Contactos); */
 
     if (correoBuscado == "" || textActividad == "") {
         alertaSweet ('error','Hay campos vacios','Debes completar con el correo de un contacto y la actividad que quieras guardar.');
     } else {
         contactoEncontrado = Contactos.find(Contacto => Contacto.correo === correoBuscado);
         if (contactoEncontrado) {
-            imprimirLog('El contacto encontrado es:');
+/*             imprimirLog('El contacto encontrado es:');
             imprimirLog(contactoEncontrado);
-/*          imprimirLog('Control contactos al momento de crear actividad: ');
+            imprimirLog('Control contactos al momento de crear actividad: ');
             imprimirLog(Contactos); */
             imprimirLog('Nueva actividad a agregar: ');
             imprimirLog(nuevaActividad);
